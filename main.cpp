@@ -120,6 +120,9 @@ void loop() {
       digitalWrite(LEDalarma, HIGH);
     }
   }
+  if(touchRead(touch)<40){
+    cont2=0;
+  }
 }
 //******************************************/
 // Otras funciones
