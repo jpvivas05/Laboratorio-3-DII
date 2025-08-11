@@ -41,16 +41,20 @@ void mostrarDecimal(uint16_t valor);
 void mostrarDecimal2(uint16_t valor2);
 
 // ISRs
+//      Definición de interrupción automática
 void IRAM_ATTR ISR_timer(void);
+//      Definiciones de interrupciones manuales (botones)
 void IRAM_ATTR btn1_ISR(void);
 void IRAM_ATTR btn2_ISR(void);
 
 //******************************************/
 // Variables globales
 //******************************************/
+
+//      Variables de automático
 volatile uint8_t cont2 = 0; 
 hw_timer_t* timer0 = NULL; 
-
+//      Variables de manual
 volatile uint32_t cont1 = 0;
 
 volatile bool btn1Pressed;
@@ -79,7 +83,7 @@ void IRAM_ATTR btn2_ISR(void){
     lastISRbtn2 = tiempoActual2;
   } 
 }
-
+//      Contador automático, suma hasta 4
 void IRAM_ATTR ISR_timer() {
   cont2 = (cont2 + 1) % 4;
 }
@@ -112,7 +116,7 @@ void loop() {
   }
   mostrarDecimal2(cont2);
   if (cont1 == cont2){
-    cont2=0;
+    cont2=0;    //Reinicia contador automático
     if(digitalRead(LEDalarma)==HIGH){
       digitalWrite(LEDalarma,LOW);
     } else 
@@ -120,8 +124,8 @@ void loop() {
       digitalWrite(LEDalarma, HIGH);
     }
   }
-  if(touchRead(touch)<40){
-    cont2=0;
+  if(touchRead(touch)<40){    //Configuración de pin touch
+    cont2=0;    //Reinicia contador automático
   }
 }
 //******************************************/
@@ -200,3 +204,4 @@ void mostrarDecimal2(uint16_t valor2){
       break;
   }
 }
+
